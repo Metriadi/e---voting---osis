@@ -7,73 +7,31 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
 body{background:#eef2ff;padding:15px}
-.header{background:linear-gradient(135deg,#1e3c72,#2a5298);color:white;text-align:center;padding:25px;border-radius:18px;margin-bottom:20px}
-.header h1{font-size:26px} .header p{opacity:.9;margin-top:5px}
-.grid{max-width:1100px;margin:auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
-.card{background:white;border-radius:18px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.1);text-align:center}
-.card img{width:100%;height:380px;object-fit:cover;background:#ddd;display:block}
-.info{padding:15px}
-.no{font-weight:bold;background:#1e3c72;color:white;display:inline-block;padding:4px 14px;border-radius:20px;margin-bottom:8px}
-.card h3{font-size:16px;margin:3px 0} .jabatan{font-size:13px;color:#64748b;margin-bottom:4px}
-.btn{width:100%;padding:11px;border:none;border-radius:12px;font-weight:bold;color:white;cursor:pointer;margin-top:10px;font-size:15px}
-.b01{background:#1e293b} .b02{background:#dc2626} .b03{background:#065f46}
-.result{max-width:1100px;margin:25px auto;background:white;padding:20px;border-radius:18px;box-shadow:0 4px 12px rgba(0,0,0,.1)}
-.bar{height:22px;background:#e2e8f0;border-radius:11px;overflow:hidden;margin:8px 0;display:flex}
-.fill{height:100%;text-align:right;padding-right:8px;color:white;font-size:12px;line-height:22px}
+.header{background:#1e3c72;color:white;text-align:center;padding:20px;border-radius:15px;margin-bottom:20px}
+.grid{max-width:1000px;margin:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.card{background:white;border-radius:15px;overflow:hidden;box-shadow:0 4px 10px rgba(0,0,0,.1);text-align:center}
+.card img{width:100%;height:350px;object-fit:cover}
+.info{padding:12px}
+.btn{width:100%;padding:10px;border:none;border-radius:8px;color:white;font-weight:bold;cursor:pointer;margin-top:8px}
 </style>
 </head>
 <body>
-<div class="header">
-<h1>E-VOTING OSIS SMPN 31</h1>
-<p>Pemilihan Ketua & Wakil Ketua OSIS 2025/2026</p>
-<p style="font-size:13px;margin-top:8px">Link: metriadi.github.io/e---voting---osis/</p>
-</div>
-
+<div class="header"><h1>E-VOTING OSIS SMPN 31</h1><p>2025/2026 - Pilih 1 Paslon</p></div>
 <div class="grid">
-<div class="card">
-<img src="calon01.jpeg" alt="Calon 01">
-<div class="info">
-<div class="no">PASLON 01</div>
-<h3>M. IQBAL REZA ARDIANSYAH</h3><div class="jabatan">Calon Ketua</div>
-<h3>M. FADLY RAMADHANI</h3><div class="jabatan">Calon Wakil Ketua</div>
-<button class="btn b01" onclick="vote(0)">VOTE 01</button>
+<div class="card"><img src="calon01.jpeg"><div class="info"><b>PASLON 01</b><br>M. IQBAL & M. FADLY<br><button class="btn" style="background:#1e293b" onclick="vote(0)">VOTE 01</button></div></div>
+<div class="card"><img src="calon02.jpeg"><div class="info"><b>PASLON 02</b><br>RISTY & NURLAILA<br><button class="btn" style="background:#dc2626" onclick="vote(1)">VOTE 02</button></div></div>
+<div class="card"><img src="calon03.jpeg"><div class="info"><b>PASLON 03</b><br>MUTIA & RAMONA<br><button class="btn" style="background:#065f46" onclick="vote(2)">VOTE 03</button></div></div>
 </div>
+<div style="max-width:1000px;margin:20px auto;background:white;padding:15px;border-radius:15px;text-align:center">
+<h3>📊 HASIL LIVE</h3><div id="hasil" style="margin-top:10px"></div>
+<p style="margin-top:10px">Total: <span id="total">0</span> suara</p>
+<button onclick="resetVote()" style="margin-top:10px;padding:6px 12px;background:#ef4444;color:white;border:none;border-radius:5px">Reset Panitia</button>
 </div>
-
-<div class="card">
-<img src="calon02.jpeg" alt="Calon 02">
-<div class="info">
-<div class="no" style="background:#dc2626">PASLON 02</div>
-<h3>RISTY APRILIA</h3><div class="jabatan">Calon Ketua</div>
-<h3>NURLAILA FITRI</h3><div class="jabatan">Calon Wakil Ketua</div>
-<button class="btn b02" onclick="vote(1)">VOTE 02</button>
-</div>
-</div>
-
-<div class="card">
-<img src="calon03.jpeg" alt="Calon 03">
-<div class="info">
-<div class="no" style="background:#065f46">PASLON 03</div>
-<h3>MUTIA RAMADANI</h3><div class="jabatan">Calon Ketua</div>
-<h3>RAMONA WATI</h3><div class="jabatan">Calon Wakil Ketua</div>
-<button class="btn b03" onclick="vote(2)">VOTE 03</button>
-</div>
-</div>
-</div>
-
-<div class="result">
-<h2 style="text-align:center;margin-bottom:15px">📊 HASIL LIVE COUNT</h2>
-<div id="hasil"></div>
-<div style="text-align:center;margin-top:15px"><button onclick="resetVote()" style="padding:8px 15px;background:#ef4444;color:white;border:none;border-radius:6px;cursor:pointer">Reset Suara (Panitia)</button></div>
-</div>
-
 <script>
-let votes=JSON.parse(localStorage.getItem('osis_votes_final')||'[0,0,0]');
-let voted=localStorage.getItem('osis_voted_final');
-function vote(i){if(voted){alert('Kamu sudah memilih! 1 HP hanya 1 suara.');return}votes[i]++;localStorage.setItem('osis_votes_final',JSON.stringify(votes));localStorage.setItem('osis_voted_final','1');voted=1;render();alert('Terima kasih! Suara untuk PASLON 0'+(i+1)+' berhasil masuk!');}
-function render(){let total=votes.reduce((a,b)=>a+b,0);let names=['01 IQBAL & FADLY','02 RISTY & NURLAILA','03 MUTIA & RAMONA'];let colors=['#1e293b','#dc2626','#065f46'];let html='';votes.forEach((v,i)=>{let p=total==0?0:Math.round(v/total*100);html+=`<div style="display:flex;justify-content:space-between"><b>${names[i]}</b><b>${v} suara - ${p}%</b></div><div class="bar"><div class="fill" style="width:${p}%;background:${colors[i]}">${p>10?p+'%':''}</div></div>`});html+=`<div style="text-align:center;margin-top:12px;font-weight:bold">Total Suara Masuk: ${total}</div>`;document.getElementById('hasil').innerHTML=html;}
-function resetVote(){if(confirm('Yakin reset semua suara?')){localStorage.removeItem('osis_votes_final');localStorage.removeItem('osis_voted_final');votes=[0,0,0];voted=null;render()}}
-render();
+let votes=JSON.parse(localStorage.getItem('osis2025')||'[0,0,0]');let voted=localStorage.getItem('osis_voted');
+function vote(i){if(voted){alert('Sudah memilih!');return}votes[i]++;localStorage.setItem('osis2025',JSON.stringify(votes));localStorage.setItem('osis_voted','1');render();alert('Makasih! Vote Paslon 0'+(i+1)+' masuk!')}
+function render(){let t=votes.reduce((a,b)=>a+b,0);document.getElementById('total').innerText=t;let h='';votes.forEach((v,i)=>{let p=t==0?0:Math.round(v/t*100);h+=`0${i+1}: ${v} suara (${p}%)<div style="background:#e2e8f0;height:18px;border-radius:9px;margin:5px 0"><div style="width:${p}%;background:#1e3c72;height:100%;border-radius:9px"></div></div>`});document.getElementById('hasil').innerHTML=h}
+function resetVote(){if(confirm('Reset?')){localStorage.clear();votes=[0,0,0];render()}}render();
 </script>
 </body>
 </html>
