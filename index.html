@@ -3,88 +3,78 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>E-VOTING OSIS SMP NEGERI 31 BATANG HARI 2026/2027</title>
+<title>E-Voting OSIS SMPN 31 Batang Hari</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
-body{background:#eef2ff;padding:15px}
-.header{background:#1e3c72;color:white;text-align:center;padding:22px;border-radius:15px;margin-bottom:15px}
-.grid{max-width:1000px;margin:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.card{background:white;border-radius:15px;overflow:hidden;box-shadow:0 4px 10px rgba(0,0,0,.1);text-align:center}
-.card img{width:100%;height:330px;object-fit:cover}
-.info{padding:10px}
-.btn{width:100%;padding:10px;border:none;border-radius:8px;color:white;font-weight:bold;cursor:pointer}
-.btn:disabled{background:#94a3b8!important}
-.result{max-width:1000px;margin:15px auto;background:white;padding:15px;border-radius:15px;text-align:center;display:none}
-.bar{height:18px;background:#e2e8f0;border-radius:9px;margin:5px 0}
-.fill{height:100%;background:#1e3c72;border-radius:9px}
-.login{max-width:1000px;margin:15px auto;background:white;padding:15px;border-radius:15px;text-align:center}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+body{background:#eef2f7}
+.header{background:#1e3a8a;color:white;padding:15px;text-align:center}
+.container{display:flex;gap:12px;padding:12px;justify-content:center}
+.card{background:white;border-radius:16px;overflow:hidden;width:30%;min-width:120px;box-shadow:0 4px 10px rgba(0,0,0,0.1);text-align:center}
+.card img{width:100%;height:220px;object-fit:cover;background:#fef08a}
+.card p{font-size:13px;font-weight:bold;min-height:36px}
+.btn{margin:8px 10px 12px;background:#1e3a8a;color:white;border:none;padding:10px;width:calc(100% - 20px);border-radius:10px;font-weight:bold}
+.btn:disabled{background:#94a3b8}
+.panitia{background:white;margin:12px;border-radius:16px;padding:15px;text-align:center}
+.next-btn{background:#16a34a !important;font-size:16px;padding:12px 25px !important}
 </style>
 </head>
 <body>
-<div class="header"><h1>E-VOTING OSIS<br>SMP NEGERI 31 BATANG HARI</h1><p>Periode 2026/2027 - 1 HP 1 Suara</p></div>
-<div class="grid">
-<div class="card"><img src="calon01.jpeg"><div class="info"><b>PASLON 01</b><br>M.IQBAL & M.FADLY<br><button id="b0" class="btn" style="background:#1e293b" onclick="vote(0)">VOTE 01</button></div></div>
-<div class="card"><img src="calon02.jpeg"><div class="info"><b>PASLON 02</b><br>RISTY & NURLAILA<br><button id="b1" class="btn" style="background:#dc2626" onclick="vote(1)">VOTE 02</button></div></div>
-<div class="card"><img src="calon03.jpeg"><div class="info"><b>PASLON 03</b><br>MUTIA & RAMONA<br><button id="b2" class="btn" style="background:#065f46" onclick="vote(2)">VOTE 03</button></div></div>
+<div class="header">
+<h1>E-VOTING OSIS SMP NEGERI 31 BATANG HARI</h1>
+<p>2026/2027</p>
+<p id="totalInfo">Total Suara: 0</p>
 </div>
-
-<div class="login" id="loginBox">
+<div class="container">
+<div class="card"><img src="calon01.jpeg"><h2>PASLON 01</h2><p>M.IQBAL & M.FADLY</p><div id="count01">0 suara</div><button class="btn" id="btn01" onclick="vote(1)">PILIH</button></div>
+<div class="card"><img src="calon02.jpeg"><h2>PASLON 02</h2><p>RISTY & NURLAILA</p><div id="count02">0 suara</div><button class="btn" id="btn02" onclick="vote(2)">PILIH</button></div>
+<div class="card"><img src="calon03.jpeg"><h2>PASLON 03</h2><p>MUTIA & RAMONA</p><div id="count03">0 suara</div><button class="btn" id="btn03" onclick="vote(3)">PILIH</button></div>
+</div>
+<div class="panitia" id="panitiaBox">
+<div id="statusBox"></div>
 <h3>🔒 Panitia Only</h3>
-<p>Hasil hanya bisa dilihat panitia</p>
-<button onclick="panitia()" style="margin-top:10px;padding:8px 20px;background:#1e3c72;color:white;border:none;border-radius:8px;font-weight:bold">Login Panitia</button>
-<p id="pesan" style="color:#dc2626;font-weight:bold;margin-top:8px"></p>
+<button onclick="loginPanitia()">Login Panitia</button>
+<div id="nextVoterBox" style="display:none;margin-top:15px">
+<div style="background:#dcfce7;color:#166534;padding:10px;border-radius:10px;font-weight:bold">✅ Terima kasih! Suara sudah masuk!</div>
+<button class="next-btn" onclick="nextVoter()">➡️ LANJUT PEMILIH BERIKUTNYA</button>
+<p style="font-size:12px;color:#666">Klik untuk pemilih selanjutnya</p>
 </div>
-
-<div class="result" id="resultBox">
-<h3>📊 HASIL LIVE 2026/2027 - KHUSUS PANITIA</h3>
-<div id="hasil"></div>
-<p>Total: <b id="total">0</b> suara</p>
-<button onclick="resetVote()" style="margin-top:10px;padding:6px 12px;background:#ef4444;color:white;border:none;border-radius:5px">Reset Panitia</button>
-<button onclick="logout()" style="margin-top:10px;padding:6px 12px;background:#64748b;color:white;border:none;border-radius:5px">Sembunyikan Lagi</button>
 </div>
-
+<div class="panitia" id="hasilBox" style="display:none">
+<h3>Hasil Sementara</h3>
+<p id="hasil01"></p><p id="hasil02"></p><p id="hasil03"></p><p id="hasilTotal" style="font-weight:bold"></p><br>
+<button onclick="resetNext()">🔄 Reset Untuk Pemilih Berikutnya</button><br><br>
+<button onclick="resetAll()" style="background:#dc2626">🗑️ Reset Semua Jadi 0</button>
+<button onclick="logout()" style="background:#64748b">Keluar</button>
+</div>
 <script>
-const KEY_VOTES='osis31_votes_2026_2027';
-const KEY_VOTED='osis31_voted_2026_2027';
-const PASSWORD='Ismet1993';
-let votes=JSON.parse(localStorage.getItem(KEY_VOTES)||'[0,0,0]');
-let voted=localStorage.getItem(KEY_VOTED);
-function vote(i){
- if(voted){alert('❌ HP INI SUDAH MEMILIH!');return}
- votes[i]++;localStorage.setItem(KEY_VOTES,JSON.stringify(votes));localStorage.setItem(KEY_VOTED,'1');voted='1';
- alert('✅ Terima kasih! Suara PASLON 0'+(i+1)+' berhasil masuk!');render();
+let votes=JSON.parse(localStorage.getItem('osis_votes')||'{"1":0,"2":0,"3":0}');
+let hasVoted=localStorage.getItem('osis_hasVoted')==='true';
+function updateUI(){
+let total=votes[1]+votes[2]+votes[3];
+document.getElementById('totalInfo').innerText='Total Suara: '+total;
+document.getElementById('count01').innerText=votes[1]+' suara';
+document.getElementById('count02').innerText=votes[2]+' suara';
+document.getElementById('count03').innerText=votes[3]+' suara';
+if(hasVoted){
+document.getElementById('btn01').innerText='SUDAH MEMILIH';document.getElementById('btn02').innerText='SUDAH MEMILIH';document.getElementById('btn03').innerText='SUDAH MEMILIH';
+document.getElementById('btn01').disabled=true;document.getElementById('btn02').disabled=true;document.getElementById('btn03').disabled=true;
+document.getElementById('statusBox').innerHTML='<div style="color:#dc2626;font-weight:bold;background:#fee2e2;padding:8px;border-radius:8px;margin-bottom:10px">✅ HP ini sudah memilih - '+total+' total suara</div>';
+document.getElementById('nextVoterBox').style.display='block';
+}else{
+document.getElementById('btn01').innerText='PILIH';document.getElementById('btn02').innerText='PILIH';document.getElementById('btn03').innerText='PILIH';
+document.getElementById('btn01').disabled=false;document.getElementById('btn02').disabled=false;document.getElementById('btn03').disabled=false;
+document.getElementById('statusBox').innerHTML='';document.getElementById('nextVoterBox').style.display='none';
 }
-function render(){
- let t=votes.reduce((a,b)=>a+b,0);
- document.getElementById('total').innerText=t;
- let h='';votes.forEach((v,i)=>{let p=t==0?0:Math.round(v/t*100);h+=`0${i+1}: ${v} suara (${p}%)<div class="bar"><div class="fill" style="width:${p}%"></div></div>`});
- document.getElementById('hasil').innerHTML=h;
- if(voted){
-  document.getElementById('pesan').innerText='✅ HP ini sudah memilih - 2026/2027';
-  document.getElementById('b0').disabled=true;document.getElementById('b1').disabled=true;document.getElementById('b2').disabled=true;
-  document.getElementById('b0').innerText='SUDAH MEMILIH';document.getElementById('b1').innerText='SUDAH MEMILIH';document.getElementById('b2').innerText='SUDAH MEMILIH';
- }
+document.getElementById('hasil01').innerText='PASLON 01: '+votes[1];document.getElementById('hasil02').innerText='PASLON 02: '+votes[2];document.getElementById('hasil03').innerText='PASLON 03: '+votes[3];
+document.getElementById('hasilTotal').innerText='Total: '+total;
 }
-function panitia(){
- let p=prompt('Masukkan Password Panitia:');
- if(p===PASSWORD){
-  document.getElementById('resultBox').style.display='block';
-  document.getElementById('loginBox').style.display='none';
-  render();
- }else if(p!==null){alert('❌ Password Salah!');}
-}
-function logout(){
- document.getElementById('resultBox').style.display='none';
- document.getElementById('loginBox').style.display='block';
-}
-function resetVote(){
- if(confirm('Reset semua suara 2026/2027 jadi 0?')){
-  let cek=prompt('Masukkan password untuk reset:');
-  if(cek===PASSWORD){localStorage.clear();votes=[0,0,0];voted=null;location.reload();}
-  else{alert('Password salah!');}
- }
-}
-render();
+function vote(n){if(hasVoted){alert('Klik Lanjut Pemilih Berikutnya dulu!');return;}votes[n]++;localStorage.setItem('osis_votes',JSON.stringify(votes));localStorage.setItem('osis_hasVoted','true');hasVoted=true;updateUI();alert('Suara PASLON 0'+n+' masuk!');}
+function nextVoter(){localStorage.removeItem('osis_hasVoted');hasVoted=false;updateUI();window.scrollTo(0,0);}
+function resetNext(){nextVoter();document.getElementById('hasilBox').style.display='none';document.getElementById('panitiaBox').style.display='block';}
+function loginPanitia(){let p=prompt('Password Panitia:');if(p==='Ismet1993'){document.getElementById('panitiaBox').style.display='none';document.getElementById('hasilBox').style.display='block';updateUI();}else if(p!==null){alert('Salah!');}}
+function logout(){document.getElementById('hasilBox').style.display='none';document.getElementById('panitiaBox').style.display='block';}
+function resetAll(){if(confirm('Reset semua jadi 0?')){votes={"1":0,"2":0,"3":0};localStorage.setItem('osis_votes',JSON.stringify(votes));localStorage.removeItem('osis_hasVoted');hasVoted=false;updateUI();}}
+updateUI();
 </script>
 </body>
 </html>
