@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>E-VOTING OSIS SMPN 31</title>
+<title>E-VOTING OSIS SMP NEGERI 31 BATANG HARI</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
 body{background:#eef2ff;padding:15px}
-.header{background:#1e3c72;color:white;text-align:center;padding:20px;border-radius:15px;margin-bottom:15px}
+.header{background:#1e3c72;color:white;text-align:center;padding:22px;border-radius:15px;margin-bottom:15px}
+.header h1{font-size:28px;line-height:1.2}
 .grid{max-width:1000px;margin:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .card{background:white;border-radius:15px;overflow:hidden;box-shadow:0 4px 10px rgba(0,0,0,.1);text-align:center}
 .card img{width:100%;height:330px;object-fit:cover}
@@ -20,7 +21,7 @@ body{background:#eef2ff;padding:15px}
 </style>
 </head>
 <body>
-<div class="header"><h1>E-VOTING OSIS SMPN 31</h1><p>2025/2026 - 1 HP 1 Suara</p></div>
+<div class="header"><h1>E-VOTING OSIS<br>SMP NEGERI 31 BATANG HARI</h1><p>2025/2026 - 1 HP 1 Suara</p></div>
 <div class="grid">
 <div class="card"><img src="calon01.jpeg"><div class="info"><b>PASLON 01</b><br>M.IQBAL & M.FADLY<br><button id="b0" class="btn" style="background:#1e293b" onclick="vote(0)">VOTE 01</button></div></div>
 <div class="card"><img src="calon02.jpeg"><div class="info"><b>PASLON 02</b><br>RISTY & NURLAILA<br><button id="b1" class="btn" style="background:#dc2626" onclick="vote(1)">VOTE 02</button></div></div>
@@ -38,9 +39,9 @@ const KEY_VOTED='osis31_sudah_memilih_2025';
 let votes=JSON.parse(localStorage.getItem(KEY_VOTES)||'[0,0,0]');
 let voted=localStorage.getItem(KEY_VOTED);
 function vote(i){
- if(voted){alert('❌ HP INI SUDAH MEMILIH! 1 HP hanya boleh 1 suara.');return}
+ if(voted){alert('❌ HP INI SUDAH MEMILIH!');return}
  votes[i]++;localStorage.setItem(KEY_VOTES,JSON.stringify(votes));localStorage.setItem(KEY_VOTED,'1');voted='1';
- alert('✅ Terima kasih! Suara untuk PASLON 0'+(i+1)+' BERHASIL masuk!');
+ alert('✅ Terima kasih! Suara untuk PASLON 0'+(i+1)+' BERHASIL!');
  render();
 }
 function render(){
@@ -50,16 +51,14 @@ function render(){
  votes.forEach((v,i)=>{let p=t==0?0:Math.round(v/t*100);h+=`0${i+1}: ${v} suara (${p}%)<div class="bar"><div class="fill" style="width:${p}%"></div></div>`});
  document.getElementById('hasil').innerHTML=h;
  if(voted){
-   document.getElementById('pesan').innerText='✅ HP ini sudah memilih, tidak bisa pilih lagi';
+   document.getElementById('pesan').innerText='✅ HP ini sudah memilih';
    document.getElementById('b0').disabled=true;document.getElementById('b1').disabled=true;document.getElementById('b2').disabled=true;
    document.getElementById('b0').innerText='SUDAH MEMILIH';document.getElementById('b1').innerText='SUDAH MEMILIH';document.getElementById('b2').innerText='SUDAH MEMILIH';
  }
 }
 function resetVote(){
- if(confirm('Yakin RESET semua suara jadi 0 untuk hari H?')){
-  localStorage.removeItem(KEY_VOTES);localStorage.removeItem(KEY_VOTED);
-  localStorage.removeItem('osis2025');localStorage.removeItem('osis_voted');localStorage.removeItem('osis_votes_final');localStorage.removeItem('osis_voted_final');
-  votes=[0,0,0];voted=null;location.reload();
+ if(confirm('Yakin RESET semua jadi 0?')){
+  localStorage.clear();votes=[0,0,0];voted=null;location.reload();
  }
 }
 render();
