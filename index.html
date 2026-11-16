@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>E-Voting OSIS SMPN 31 Batang Hari</title>
+<title>E-Voting OSIS SMPN 31</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
 body{background:#eef2f7}
@@ -11,69 +11,74 @@ body{background:#eef2f7}
 .container{display:flex;gap:12px;padding:12px;justify-content:center}
 .card{background:white;border-radius:16px;overflow:hidden;width:30%;min-width:120px;box-shadow:0 4px 10px rgba(0,0,0,0.1);text-align:center}
 .card img{width:100%;height:220px;object-fit:cover;background:#fef08a}
-.card p{font-size:13px;font-weight:bold;min-height:36px}
-.btn{margin:8px 10px 12px;background:#1e3a8a;color:white;border:none;padding:10px;width:calc(100% - 20px);border-radius:10px;font-weight:bold}
+.card p{font-size:13px;font-weight:bold;min-height:36px;padding-bottom:5px}
+.btn{margin:8px 10px 12px;background:#1e3a8a;color:white;border:none;padding:12px;width:calc(100% - 20px);border-radius:10px;font-weight:bold;font-size:14px}
 .btn:disabled{background:#94a3b8}
 .panitia{background:white;margin:12px;border-radius:16px;padding:15px;text-align:center}
-.next-btn{background:#16a34a !important;font-size:16px;padding:12px 25px !important}
+.next-btn{background:#16a34a !important;font-size:16px;padding:14px 28px !important;width:90% !important}
 </style>
 </head>
 <body>
 <div class="header">
-<h1>E-VOTING OSIS SMP NEGERI 31 BATANG HARI</h1>
-<p>2026/2027</p>
-<p id="totalInfo">Total Suara: 0</p>
+<h1>E-VOTING OSIS</h1>
+<p>SMP NEGERI 31 BATANG HARI 2026/2027</p>
+<p style="font-size:12px;margin-top:5px">Pilih calon Ketua OSIS</p>
 </div>
 <div class="container">
-<div class="card"><img src="calon01.jpeg"><h2>PASLON 01</h2><p>M.IQBAL & M.FADLY</p><div id="count01">0 suara</div><button class="btn" id="btn01" onclick="vote(1)">PILIH</button></div>
-<div class="card"><img src="calon02.jpeg"><h2>PASLON 02</h2><p>RISTY & NURLAILA</p><div id="count02">0 suara</div><button class="btn" id="btn02" onclick="vote(2)">PILIH</button></div>
-<div class="card"><img src="calon03.jpeg"><h2>PASLON 03</h2><p>MUTIA & RAMONA</p><div id="count03">0 suara</div><button class="btn" id="btn03" onclick="vote(3)">PILIH</button></div>
+<div class="card"><img src="calon01.jpeg"><h2>PASLON 01</h2><p>M.IQBAL & M.FADLY</p><button class="btn" id="btn01" onclick="vote(1)">PILIH</button></div>
+<div class="card"><img src="calon02.jpeg"><h2>PASLON 02</h2><p>RISTY & NURLAILA</p><button class="btn" id="btn02" onclick="vote(2)">PILIH</button></div>
+<div class="card"><img src="calon03.jpeg"><h2>PASLON 03</h2><p>MUTIA & RAMONA</p><button class="btn" id="btn03" onclick="vote(3)">PILIH</button></div>
 </div>
 <div class="panitia" id="panitiaBox">
 <div id="statusBox"></div>
-<h3>🔒 Panitia Only</h3>
-<button onclick="loginPanitia()">Login Panitia</button>
 <div id="nextVoterBox" style="display:none;margin-top:15px">
-<div style="background:#dcfce7;color:#166534;padding:10px;border-radius:10px;font-weight:bold">✅ Terima kasih! Suara sudah masuk!</div>
+<div style="background:#dcfce7;color:#166534;padding:12px;border-radius:10px;font-weight:bold;font-size:16px">✅ SUARA MASUK! Terima kasih!</div>
 <button class="next-btn" onclick="nextVoter()">➡️ LANJUT PEMILIH BERIKUTNYA</button>
-<p style="font-size:12px;color:#666">Klik untuk pemilih selanjutnya</p>
+<p style="font-size:12px;color:#666;margin-top:8px">Klik tombol di atas untuk pemilih selanjutnya</p>
+</div>
+<div style="margin-top:20px;border-top:1px solid #eee;padding-top:15px">
+<h3 style="font-size:14px">🔒 Panitia Only</h3>
+<button onclick="loginPanitia()" style="background:#1e3a8a;color:white;border:none;padding:8px 18px;border-radius:8px;margin-top:8px;font-size:12px">Login Panitia</button>
 </div>
 </div>
 <div class="panitia" id="hasilBox" style="display:none">
-<h3>Hasil Sementara</h3>
-<p id="hasil01"></p><p id="hasil02"></p><p id="hasil03"></p><p id="hasilTotal" style="font-weight:bold"></p><br>
-<button onclick="resetNext()">🔄 Reset Untuk Pemilih Berikutnya</button><br><br>
-<button onclick="resetAll()" style="background:#dc2626">🗑️ Reset Semua Jadi 0</button>
-<button onclick="logout()" style="background:#64748b">Keluar</button>
+<h3>📊 HASIL PEMILIHAN (PANITIA)</h3>
+<br>
+<p id="hasil01" style="font-size:18px;font-weight:bold"></p>
+<p id="hasil02" style="font-size:18px;font-weight:bold"></p>
+<p id="hasil03" style="font-size:18px;font-weight:bold"></p>
+<p id="hasilTotal" style="font-weight:bold;margin-top:15px;background:#eef2f7;padding:10px;border-radius:8px"></p>
+<br>
+<button onclick="resetNext()" style="background:#1e3a8a;color:white;border:none;padding:10px 20px;border-radius:8px">🔄 Lanjut Pemilih</button><br><br>
+<button onclick="resetAll()" style="background:#dc2626;color:white;border:none;padding:8px 15px;border-radius:8px">🗑️ Reset Semua Jadi 0</button>
+<button onclick="logout()" style="background:#64748b;color:white;border:none;padding:8px 15px;border-radius:8px;margin-left:5px">Keluar</button>
 </div>
 <script>
 let votes=JSON.parse(localStorage.getItem('osis_votes')||'{"1":0,"2":0,"3":0}');
 let hasVoted=localStorage.getItem('osis_hasVoted')==='true';
 function updateUI(){
 let total=votes[1]+votes[2]+votes[3];
-document.getElementById('totalInfo').innerText='Total Suara: '+total;
-document.getElementById('count01').innerText=votes[1]+' suara';
-document.getElementById('count02').innerText=votes[2]+' suara';
-document.getElementById('count03').innerText=votes[3]+' suara';
 if(hasVoted){
 document.getElementById('btn01').innerText='SUDAH MEMILIH';document.getElementById('btn02').innerText='SUDAH MEMILIH';document.getElementById('btn03').innerText='SUDAH MEMILIH';
 document.getElementById('btn01').disabled=true;document.getElementById('btn02').disabled=true;document.getElementById('btn03').disabled=true;
-document.getElementById('statusBox').innerHTML='<div style="color:#dc2626;font-weight:bold;background:#fee2e2;padding:8px;border-radius:8px;margin-bottom:10px">✅ HP ini sudah memilih - '+total+' total suara</div>';
+document.getElementById('statusBox').innerHTML='';
 document.getElementById('nextVoterBox').style.display='block';
 }else{
 document.getElementById('btn01').innerText='PILIH';document.getElementById('btn02').innerText='PILIH';document.getElementById('btn03').innerText='PILIH';
 document.getElementById('btn01').disabled=false;document.getElementById('btn02').disabled=false;document.getElementById('btn03').disabled=false;
 document.getElementById('statusBox').innerHTML='';document.getElementById('nextVoterBox').style.display='none';
 }
-document.getElementById('hasil01').innerText='PASLON 01: '+votes[1];document.getElementById('hasil02').innerText='PASLON 02: '+votes[2];document.getElementById('hasil03').innerText='PASLON 03: '+votes[3];
-document.getElementById('hasilTotal').innerText='Total: '+total;
+document.getElementById('hasil01').innerText='PASLON 01: '+votes[1]+' suara';
+document.getElementById('hasil02').innerText='PASLON 02: '+votes[2]+' suara';
+document.getElementById('hasil03').innerText='PASLON 03: '+votes[3]+' suara';
+document.getElementById('hasilTotal').innerText='TOTAL PEMILIH: '+total+' siswa';
 }
-function vote(n){if(hasVoted){alert('Klik Lanjut Pemilih Berikutnya dulu!');return;}votes[n]++;localStorage.setItem('osis_votes',JSON.stringify(votes));localStorage.setItem('osis_hasVoted','true');hasVoted=true;updateUI();alert('Suara PASLON 0'+n+' masuk!');}
+function vote(n){if(hasVoted){alert('Klik Lanjut Pemilih Berikutnya!');return;}votes[n]++;localStorage.setItem('osis_votes',JSON.stringify(votes));localStorage.setItem('osis_hasVoted','true');hasVoted=true;updateUI();}
 function nextVoter(){localStorage.removeItem('osis_hasVoted');hasVoted=false;updateUI();window.scrollTo(0,0);}
 function resetNext(){nextVoter();document.getElementById('hasilBox').style.display='none';document.getElementById('panitiaBox').style.display='block';}
-function loginPanitia(){let p=prompt('Password Panitia:');if(p==='Ismet1993'){document.getElementById('panitiaBox').style.display='none';document.getElementById('hasilBox').style.display='block';updateUI();}else if(p!==null){alert('Salah!');}}
+function loginPanitia(){let p=prompt('Password Panitia:');if(p==='Ismet1993'){document.getElementById('panitiaBox').style.display='none';document.getElementById('hasilBox').style.display='block';updateUI();}else if(p!==null){alert('Password salah!');}}
 function logout(){document.getElementById('hasilBox').style.display='none';document.getElementById('panitiaBox').style.display='block';}
-function resetAll(){if(confirm('Reset semua jadi 0?')){votes={"1":0,"2":0,"3":0};localStorage.setItem('osis_votes',JSON.stringify(votes));localStorage.removeItem('osis_hasVoted');hasVoted=false;updateUI();}}
+function resetAll(){if(confirm('Yakin reset semua suara jadi 0? Data akan hilang!')){votes={"1":0,"2":0,"3":0};localStorage.setItem('osis_votes',JSON.stringify(votes));localStorage.removeItem('osis_hasVoted');hasVoted=false;updateUI();alert('Reset berhasil!');}}
 updateUI();
 </script>
 </body>
